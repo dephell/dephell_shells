@@ -4,6 +4,8 @@ Run shell for virtual environment.
 
 ## Installation
 
+Install from [PyPI](https://pypi.org/project/dephell-shells/):
+
 ```bash
 python3 -m pip install --user dephell_shells
 ```
