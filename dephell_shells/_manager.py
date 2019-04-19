@@ -19,27 +19,26 @@ class Shells:
     shells = dict()  # type: Dict[str, Type[BaseShell]]
 
     @cached_property
-    def _shell_info(self) -> Tuple[str, Path]:
+    def _shell_info(self) -> Tuple[str, str]:
         # detect by shellingham
         try:
             name, path = detect_shell()
         except (ShellDetectionFailure, RuntimeError):
             pass
         else:
-            return name, Path(path)
+            return name, path
 
         # detect by env
         for env in ('SHELL', 'COMSPEC'):
             path = os.environ.get(env)
             if path:
-                path = Path(path).resolve()
-                return path.stem, path
+                return Path(path).stem, path
 
         # try to find any known shell
         for name in sorted(self.shells):
             path = shutil.which(name)
             if path is not None:
-                return name, Path(path)
+                return name, path
 
         raise OSError('cannot detect shell')
 
@@ -49,7 +48,13 @@ class Shells:
 
     @property
     def shell_path(self) -> Path:
-        return self._shell_info[-1]
+        path = Path(self._shell_info[-1])
+        if path.exists():
+            return path.resolve()
+        resolved = shutil.which(str(path))
+        if resolved:
+            return Path(resolved)
+        return path
 
     @property
     def current(self) -> 'BaseShell':
