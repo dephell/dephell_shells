@@ -1,5 +1,5 @@
 # built-in
-from typing import List
+from typing import List, Type
 
 # app
 from ._base import BaseShell
@@ -7,7 +7,7 @@ from ._manager import Shells
 from ._utils import is_windows
 
 
-def _register_shell(cls: BaseShell) -> BaseShell:
+def _register_shell(cls: Type[BaseShell]) -> Type[BaseShell]:
     if cls.name in Shells.shells:
         raise NameError('already registered: ' + cls.name)
     Shells.shells[cls.name] = cls

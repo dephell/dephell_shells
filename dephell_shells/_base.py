@@ -2,6 +2,8 @@
 import shutil
 import signal
 import subprocess
+from pathlib import Path
+from typing import Tuple, List, Optional
 
 # external
 import attr
@@ -13,8 +15,8 @@ from ._utils import is_windows
 
 @attr.s()
 class BaseShell:
-    bin_path = attr.ib()
-    shell_path = attr.ib()
+    bin_path = attr.ib(type=Path)
+    shell_path = attr.ib(type=Optional[Path])
 
     name = NotImplemented
     activate = NotImplemented
@@ -31,16 +33,16 @@ class BaseShell:
         return str(self.bin_path / self.activate)
 
     @property
-    def dimensions(self):
+    def dimensions(self) -> Tuple[int, int]:
         columns, lines = shutil.get_terminal_size()
         return lines, columns
 
     @property
-    def command(self):
+    def command(self) -> str:
         return 'source "{}"'.format(str(self.entrypoint))
 
     @property
-    def args(self):
+    def args(self) -> List[str]:
         return ['-i']
 
     # https://github.com/ofek/hatch/blob/master/hatch/shells.py
