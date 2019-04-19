@@ -2,20 +2,21 @@
 import os
 import shutil
 from pathlib import Path
-from typing import Tuple
+from typing import Dict, Tuple, Type
 
 # external
 import attr
 from shellingham import ShellDetectionFailure, detect_shell
 
 # app
+from ._base import BaseShell
 from ._utils import cached_property
 
 
 @attr.s()
 class Shells:
-    bin_path = attr.ib()
-    shells = dict()
+    bin_path = attr.ib(type=Path)
+    shells = dict()  # type: Dict[str, Type[BaseShell]]
 
     @cached_property
     def _shell_info(self) -> Tuple[str, Path]:
@@ -53,6 +54,8 @@ class Shells:
     @property
     def current(self) -> 'BaseShell':
         shell_class = self.shells.get(self.shell_name)
+        if shell_class is None:
+            raise LookupError('unsupported shell: {}'.format(self.shell_name))
         return shell_class(
             bin_path=self.bin_path,
             shell_path=self.shell_path,
