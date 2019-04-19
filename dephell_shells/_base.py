@@ -3,7 +3,7 @@ import shutil
 import signal
 import subprocess
 from pathlib import Path
-from typing import Tuple, List
+from typing import Tuple, List, Optional
 
 # external
 import attr
@@ -16,7 +16,7 @@ from ._utils import is_windows
 @attr.s()
 class BaseShell:
     bin_path = attr.ib(type=Path)
-    shell_path = attr.ib(type=Path)
+    shell_path = attr.ib(type=Optional[Path])
 
     name = NotImplemented
     activate = NotImplemented
