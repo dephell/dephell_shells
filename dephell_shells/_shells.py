@@ -44,6 +44,17 @@ class BashShell(BaseShell):
 
 
 @_register_shell
+class ShShell(BaseShell):
+    name = 'sh'
+    activate = 'activate'
+    interactive = True
+
+    @property
+    def command(self) -> str:
+        return '. "{}"'.format(str(self.entrypoint))
+
+
+@_register_shell
 class FishShell(BaseShell):
     name = 'fish'
     activate = 'activate.fish'
