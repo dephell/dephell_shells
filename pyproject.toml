@@ -24,7 +24,7 @@ authors = ["Gram <master_fess@mail.ru>"]
 description = "activate virtual environment for current shell"
 readme = "README.md"
 license = "MIT"
-repository = "https://github.com/dephell/dephell_venvs"
+repository = "https://github.com/dephell/dephell_shells"
 keywords = ["dephell", "packaging", "venv", "pipenv", "virtualenv"]
 # https://pypi.org/classifiers/
 classifiers = [
