@@ -20,7 +20,7 @@ command = "mypy --ignore-missing-imports --allow-redefinition dephell_shells"
 
 [tool.poetry]
 name = "dephell_shells"
-version = "0.1.4"
+version = "0.1.5"
 authors = ["Gram <gram@orsinium.dev>"]
 description = "activate virtual environment for current shell"
 readme = "README.md"
